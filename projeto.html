@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/projeto.css">
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-    <title>Aula069</title>
+    <title>Aula070</title>
 </head>
 <body>
     <main id="calc" class="calc">
@@ -15,31 +15,117 @@
             </div>
         </header>
         <div id="caixaDisplay" class="display">
-            <p id="display">100</p>
+            <p id="display"></p>
         </div>
         <div id="teclas" class="teclas">
-            <button id="t7" class="tecla">7</button>
-            <button id="t8" class="tecla">8</button>
-            <button id="t9" class="tecla">9</button>
-            <button id="t/" class="tecla tEspecial">/</button>
-            <button id="t4" class="tecla">4</button>
-            <button id="t5" class="tecla">5</button>
-            <button id="t6" class="tecla">6</button>
-            <button id="tx" class="tecla tEspecial">x</button>
-            <button id="t1" class="tecla">1</button>
-            <button id="t2" class="tecla">2</button>
-            <button id="t3" class="tecla">3</button>
-            <button id="t-" class="tecla tEspecial">-</button>
-            <button id="tc" class="tecla tEspecial">c</button>
-            <button id="t0" class="tecla">0</button>
-            <button id="t=" class="tecla tEspecial">=</button>
-            <button id="t+" class="tecla tEspecial">+</button>
+            <button id="tInterruptor" class="tecla off">OFF</button>
+            <button id="tAbreParenteses" class="tecla tNum">[</button>
+            <button id="tFecharParenteses" class="tecla tNum">]</button>
+            <button id="tLimpar" class="tecla tOp">c</button>
+            <button id="t7" class="tecla tNum">7</button>
+            <button id="t8" class="tecla tNum">8</button>
+            <button id="t9" class="tecla tNum">9</button>
+            <button id="tDivisao" class="tecla tOp operacao">/</button>
+            <button id="t4" class="tecla tNum">4</button>
+            <button id="t5" class="tecla tNum">5</button>
+            <button id="t6" class="tecla tNum">6</button>
+            <button id="tMultiplicacao" class="tecla tOp operacao">x</button>
+            <button id="t1" class="tecla tNum">1</button>
+            <button id="t2" class="tecla tNum">2</button>
+            <button id="t3" class="tecla tNum">3</button>
+            <button id="tSubtracao" class="tecla tOp operacao">-</button>
+            <button id="tVirgula" class="tecla">,</button>
+            <button id="t0" class="tecla tNum">0</button>
+            <button id="tIgual" class="tecla tOp">=</button>
+            <button id="tSoma" class="tecla tOp operacao">+</button>
         </div>
     </main>
-    <a href="index.html">Aula 69</a>
+    <a href="index.html">Aula 70</a>
     <script>
         "use strict"
-        
+        const teclasNum = [...document.querySelectorAll(".tNum")] //Array da teclas númericas e lógicas
+        const teclasOperacao = [...document.querySelectorAll(".operacao")] //Array das operações básicas
+        const tVirgula = document.querySelector("#tVirgula") //Teclas de inserção de vírgula
+        const tIgual = document.querySelector("#tIgual") //Tecla de resultado
+        const tLimpar = document.querySelector("#tLimpar") //Tecla de limpeza do display
+        const display = document.querySelector("#display") //Display
+        const tInterruptor = document.querySelector("#tInterruptor")
+        let arrayDisplay = [] //Array que armazena os elementos adicionados ao display
+
+        teclasNum.map((el) => { //Loop que passa por todo o array de teclas númericas e lógicas
+            el.addEventListener("click", (evt) => { //E adiciona um AEL aos elementos
+                if(tInterruptor.innerHTML == "ON") { //Verifica se a calculadora esta ligada
+                    if(arrayDisplay.length < 18) { //Que verifica se há espaço no display
+                        arrayDisplay.push(el.innerHTML) //Inserindo o elemento ao array do display
+                        display.innerHTML="" //Limpando o display
+                        arrayDisplay.map((el) => { //E usando um loop no array do display
+                            display.innerHTML+=el //Para inserir os elementos do array no innerHTML do display
+                        })
+                    } else {
+                        alert("O display está cheio!") //Caso contrário o alerta é emitido
+                    }
+                } else {
+                    alert("Você deve ligar a calculadora antes de usá-la!")
+                }
+            })
+        })
+        teclasOperacao.map((el) => { //Mesma coisa do loop acima
+            el.addEventListener("click", (evt) => {
+                if(tInterruptor.innerHTML == "ON") {
+                    if(arrayDisplay.length < 18) {
+                        arrayDisplay.push(el.innerHTML)
+                        display.innerHTML=""
+                        arrayDisplay.map((el) => {
+                            display.innerHTML+=el
+                        })
+                    } else {
+                        alert("O display está cheio!")
+                    }
+                } else {
+                    alert("Você deve ligar a calculadora antes de usá-la!")
+                }
+            })
+        })
+        tVirgula.addEventListener("click", (evt) => { //AEL de clique para o botão da vírgula
+            if(tInterruptor.innerHTML == "ON") {
+                if(display.innerHTML.includes(",")){ //Que verifica se o o array já possui alguma vírgula
+                    alert("O display já possui uma vírgula!") //E se tiver dispara o alerta
+                } else {
+                    display.innerHTML+=tVirgula.innerHTML //Se não tiver adiciona a vírgula ao display
+                    arrayDisplay.push(tVirgula.innerHTML) //E ao array do display
+                }
+            } else {
+                alert("Você deve ligar a calculadora antes de usá-la!")
+            }
+        })
+        tIgual.addEventListener("click", (evt) => {
+            if(tInterruptor.innerHTML == "ON"){
+            } else {
+                alert("Você deve ligar a calculadora antes de usá-la!")
+            }
+        })
+        tLimpar.addEventListener("click", (evt) => { //AEL no botão de limpeza do display
+            if(tInterruptor.innerHTML == "ON"){
+                display.innerHTML=0 //Que limpa tanto o display
+                arrayDisplay=[] //Quanto o array dele
+            } else {
+                alert("Você deve ligar a calculadora antes de usá-la!")
+            }
+        })
+        tInterruptor.addEventListener("click", (evt) => { //AEL de clique para o botão de (des)ligar
+            if(tInterruptor.innerHTML == "ON"){ //Verifica o innerHTML
+                tInterruptor.innerHTML = "OFF" //Para aplicar o valor inverso
+                tInterruptor.classList.remove("on") //Remove a classe "on"
+                tInterruptor.classList.add("off") //E adiciona a "off"
+                display.innerHTML="" //Limpando o display
+                arrayDisplay=[] //E o array
+            } else { //Caso contrário "liga" a calculadora
+                tInterruptor.innerHTML = "ON"
+                tInterruptor.classList.remove("off")
+                tInterruptor.classList.add("on")
+                display.innerHTML=0
+            }
+        })
     </script>
 </body>
 </html>

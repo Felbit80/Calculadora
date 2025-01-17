@@ -54,12 +54,13 @@
     width: 430px;
     font: var(--fontGeo);
     padding: 2px 15px 5px 5px;
+    font-size: 47px;
 }
 
 #teclas {
     display: grid;
     grid-template-columns: auto auto auto auto;
-    grid-template-rows: auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto;
     row-gap: 10px;
     column-gap: 10px;
     margin: 15px 0 0 0;
@@ -81,9 +82,29 @@
     background-color: rgb(0, 47, 118);
 }
 
-.tEspecial {
+.tOp {
     background-color: #165103 !important; 
 }
-.tEspecial:hover {
+.tOp:hover {
     background-color: #217405 !important;
+}
+
+.off {
+    background-color: #510303 !important;
+    font-size: 45px; 
+    width: 70px;
+    height: 70px;
+    margin: 5px 0 0 5px;
+    font-size: 40px;
+}
+.off:hover {
+    background-color: #2b0101 !important; 
+}
+.on {
+    color: black;
+    background-color: #d5dc12 !important;
+    font-size: 45px; 
+}
+.on:hover {
+    background-color: #f8f41c !important;
 }
