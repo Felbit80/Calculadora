@@ -5,13 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-    <title>Aula070</title>
+    <title>Aula071</title>
 </head>
 <body>
     <h1>JavaScript</h1>
-    <h2 id="titulo">Calculadora P2</h2>
-    <p>Na aula de hoje continuamos na construção do projeto da calculadora, passamos para o JS, entretanto não utilizamos nada de muito novo. No geral utilizamos variávei com elementos DOM, e métodos como map, para percorrer as teclas e adicionar AEL de click, que verifica se a calculadora está ligada, se há espaço no display e então através da impressão por array, limpamos o display e imprimirmos o array no display. Botões de operação ainda precisam de um algoritmo que não permita serem colocados dois em sequência, ou começar por um. Por fim, botões como "ON/OFF" e "C" já estão funcionando, além de que adicionamos um tratamento para erros através de alertas.<p>
+    <h2 id="titulo">Calculadora P3</h2>
+    <p>Na aula de hoje finalizamos a construção do projeto da calculadora, existem alguns detalhes que serão adicionados à ela, entretante, ela está 100% funcional. Na aula de hoje, utilizamos variáveis de controle para não deixar que erros sejam cometidos, como por exemplo dois decimais em um mesmo valor da expressão, decimais logo após sinais de operação, sinais de operação em sequência ou sinais de operação logo após decimais. Por fim, o mais importante de tudo, levou apenas 5 minutos para ser realizado, o cálculo da expressão e exibição do resultado, realizamos isso utilizando a função <strong>eval()</strong> onde passamos uma string e ela retorna a evaluação dessa string, entretanto, caso essa string possua apenas valores aritméticos (ex: números, parênteses e operações) ela resolve a equação.<p>
+    <h3>Estrutura</h3>
+    <pre>
+        "use strict"
+        const equacao = "5+3*2"
+        console.log(eval(equacao)) //11
+    </pre>
+    <p>Importante ressaltar que função eval retorna e recebe strings.</p>
+    <p>Vamos analisar do projeto da calculadora:</p>
+    <pre>
+        const res = eval(display.innerHTML) //Declaração da variável "res" que recebe o retorno da função eval, utilizando como parâmetro, o innerHTML do display
+        display.innerHTML = res //Impressão do resultado no display
+        arrayDisplay = [res] //Inserção do resultado no array
+    </pre>
     <a href="projeto.html">Projeto</a>
-    <script></script>
+    <script>
+    </script>
 </body>
 </html>

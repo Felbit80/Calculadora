@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/projeto.css">
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-    <title>Aula070</title>
+    <title>Aula071</title>
 </head>
 <body>
     <main id="calc" class="calc">
@@ -29,31 +29,34 @@
             <button id="t4" class="tecla tNum">4</button>
             <button id="t5" class="tecla tNum">5</button>
             <button id="t6" class="tecla tNum">6</button>
-            <button id="tMultiplicacao" class="tecla tOp operacao">x</button>
+            <button id="tMultiplicacao" class="tecla tOp operacao">*</button>
             <button id="t1" class="tecla tNum">1</button>
             <button id="t2" class="tecla tNum">2</button>
             <button id="t3" class="tecla tNum">3</button>
             <button id="tSubtracao" class="tecla tOp operacao">-</button>
-            <button id="tVirgula" class="tecla">,</button>
+            <button id="tDecimal" class="tecla">.</button>
             <button id="t0" class="tecla tNum">0</button>
             <button id="tIgual" class="tecla tOp">=</button>
             <button id="tSoma" class="tecla tOp operacao">+</button>
         </div>
     </main>
-    <a href="index.html">Aula 70</a>
+    <a href="index.html">Aula 71</a>
     <script>
         "use strict"
         const teclasNum = [...document.querySelectorAll(".tNum")] //Array da teclas númericas e lógicas
         const teclasOperacao = [...document.querySelectorAll(".operacao")] //Array das operações básicas
-        const tVirgula = document.querySelector("#tVirgula") //Teclas de inserção de vírgula
+        const tDecimal = document.querySelector("#tDecimal") //Teclas de inserção de vírgula
         const tIgual = document.querySelector("#tIgual") //Tecla de resultado
         const tLimpar = document.querySelector("#tLimpar") //Tecla de limpeza do display
         const display = document.querySelector("#display") //Display
         const tInterruptor = document.querySelector("#tInterruptor")
         let arrayDisplay = [] //Array que armazena os elementos adicionados ao display
+        let operacao = false //Variável de controle para que sinais de operação não sejam impressos em sequência
+        let decimal = false //Variável de controle para que não possa ter mais de uma casa decimal entre no mesmo valor de uma expressão
 
         teclasNum.map((el) => { //Loop que passa por todo o array de teclas númericas e lógicas
             el.addEventListener("click", (evt) => { //E adiciona um AEL aos elementos
+                operacao = false
                 if(tInterruptor.innerHTML == "ON") { //Verifica se a calculadora esta ligada
                     if(arrayDisplay.length < 18) { //Que verifica se há espaço no display
                         arrayDisplay.push(el.innerHTML) //Inserindo o elemento ao array do display
@@ -64,20 +67,24 @@
                     } else {
                         alert("O display está cheio!") //Caso contrário o alerta é emitido
                     }
-                } else {
+                } else { //Se não estiver emite um alerta
                     alert("Você deve ligar a calculadora antes de usá-la!")
                 }
             })
         })
         teclasOperacao.map((el) => { //Mesma coisa do loop acima
             el.addEventListener("click", (evt) => {
+                decimal = false
                 if(tInterruptor.innerHTML == "ON") {
                     if(arrayDisplay.length < 18) {
-                        arrayDisplay.push(el.innerHTML)
-                        display.innerHTML=""
-                        arrayDisplay.map((el) => {
-                            display.innerHTML+=el
-                        })
+                        if(operacao == false) {
+                            operacao = true
+                            arrayDisplay.push(el.innerHTML)
+                            display.innerHTML=""
+                            arrayDisplay.map((el) => {
+                                display.innerHTML+=el
+                            })
+                        }
                     } else {
                         alert("O display está cheio!")
                     }
@@ -86,13 +93,21 @@
                 }
             })
         })
-        tVirgula.addEventListener("click", (evt) => { //AEL de clique para o botão da vírgula
+        tDecimal.addEventListener("click", (evt) => { //AEL de clique para o botão da vírgula
             if(tInterruptor.innerHTML == "ON") {
-                if(display.innerHTML.includes(",")){ //Que verifica se o o array já possui alguma vírgula
+                if(decimal == true){ //Que verifica se o o array já possui alguma vírgula
                     alert("O display já possui uma vírgula!") //E se tiver dispara o alerta
+                } else if (operacao == true) { //Verifica a variável de controle
+                    alert("Vírgulas não podem ser adicionadas após uma operação.")
                 } else {
-                    display.innerHTML+=tVirgula.innerHTML //Se não tiver adiciona a vírgula ao display
-                    arrayDisplay.push(tVirgula.innerHTML) //E ao array do display
+                    operacao = true
+                    if(arrayDisplay.length == 0) { //Verifica se o array está vazio
+                        display.innerHTML = "0" //Imprime o 0 junto da vírgula
+                        arrayDisplay.push("0") //Adicionando-o ao array
+                    }
+                    display.innerHTML+=tDecimal.innerHTML //Se não tiver adiciona a vírgula ao display
+                    arrayDisplay.push(tDecimal.innerHTML) //E ao array do display
+                    decimal = true
                 }
             } else {
                 alert("Você deve ligar a calculadora antes de usá-la!")
@@ -100,6 +115,11 @@
         })
         tIgual.addEventListener("click", (evt) => {
             if(tInterruptor.innerHTML == "ON"){
+                operacao = false
+                decimal = false
+                const res = eval(display.innerHTML) //Declaração da variável "res" que recebe o retorno da função eval, utilizando como parâmetro, o innerHTML do display
+                display.innerHTML = res //Impressão do resultado no display
+                arrayDisplay = [res] //Inserção do resultado no array
             } else {
                 alert("Você deve ligar a calculadora antes de usá-la!")
             }
@@ -108,6 +128,7 @@
             if(tInterruptor.innerHTML == "ON"){
                 display.innerHTML=0 //Que limpa tanto o display
                 arrayDisplay=[] //Quanto o array dele
+                decimal = false
             } else {
                 alert("Você deve ligar a calculadora antes de usá-la!")
             }
@@ -124,6 +145,7 @@
                 tInterruptor.classList.remove("off")
                 tInterruptor.classList.add("on")
                 display.innerHTML=0
+                decimal = false
             }
         })
     </script>
